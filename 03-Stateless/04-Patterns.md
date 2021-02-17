@@ -1,0 +1,1 @@
+WIP: Patterns - Sidecar, Adapter, Ambassador
