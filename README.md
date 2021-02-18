@@ -24,7 +24,7 @@ This workshop is for anyone who wants to understand Kubernetes concepts and use 
 
 [A bit of history](./01-Overview/01-History.md)
 
-[Basic concepts](./01-Overview/02-Concepts.md)
+[Core components](./01-Overview/02-Core.md)
 
 [Using kubectl](./01-Overview/03-kubectl.md)
 
