@@ -68,14 +68,28 @@ When a Deployment's Pod template is changed, new Pods are automatically created.
 
 Using Deployments you can simply and reliably roll out new software versions without downtime or errors. There are different ways we can roll out new versions, like Recreate, Rolling Updates, Blue/Green deployments and Canary builds.
 
-| Strategy     | Description                                                  |
-| ------------ | ------------------------------------------------------------ |
-| `Recreate`   | Kubernetes terminates all existing pods before the new one are created. With a recreate deployment strategy there is some downtime, however there won’t be 2 versions of the containers running at the same time |
-| `Rolling`    | A rolling update strategy provides a controlled, phased replacement of the application's pods, ensuring that there are always a minimum number available. By default, Kubernetes makes sure that maximum of only 25% of Pods are unavailable at any time, and it also won’t over provision more than 25% of the number of pods specified in the desired state. |
-| `Blue/Green` |                                                              |
-| `Canary`     |                                                              |
+| Strategy     | Description                                                  | Zero downtime             | Real traffic testing      | Cost                      | Negative Impact on users  | Native support            |
+| ------------ | ------------------------------------------------------------ | ------------------------- | ------------------------- | ------------------------- | ------------------------- | ------------------------- |
+| `Recreate`   | Kubernetes terminates all existing pods before the new one are created. With a recreate deployment strategy there is some downtime, however there won’t be 2 versions of the containers running at the same time | ![-](../images/times.png) | ![-](../images/times.png) | ![-](../images/check.png) | ![-](../images/times.png) | ![-](../images/check.png) |
+| `Rolling`    | A rolling update strategy provides a controlled, phased replacement of the application's pods, ensuring that there are always a minimum number available. By default, Kubernetes makes sure that maximum of only 25% of Pods are unavailable at any time, and it also won’t over provision more than 25% of the number of pods specified in the desired state. | ![-](../images/check.png) | ![-](../images/times.png) | ![-](../images/check.png) | ![-](../images/check.png) | ![-](../images/check.png) |
+| `Blue/Green` | The old version of the application (green) and the new version (blue) get deployed at the same time. When both of these are deployed, users only have access to the green; whereas, the blue is available to your QA team for test automation on a separate service or via direct port-forwarding. Once the acceptance criteria are passed, blue environment is promoted to green. | ![-](../images/check.png) | ![-](../images/times.png) | ![-](../images/times.png) | ![-](../images/check.png) | ![-](../images/times.png) |
+| `Canary`     | The name of Canary Deployment Strategy has its origins rooted back to coal miners. A canary is used for when you want to test some new functionality. Traditionally you may have had two almost identical servers: one that goes to all users and another with the new features that gets rolled out to a subset of users and then compared. When no errors are reported, the new version can gradually roll out to the rest of the infrastructure. | ![-](../images/check.png) | ![-](../images/check.png) | ![-](../images/check.png) | ![-](../images/check.png) | ![-](../images/times.png) |
 
+### Recreate
 
+![Recreate strategy](../images/deploy-recreate.png)
+
+Rolling
+
+![Recreate strategy](../images/deploy-rolling.png)
+
+Blue/Green
+
+![Recreate strategy](../images/deploy-bluegreen.png)
+
+Canary
+
+![Recreate strategy](../images/deploy-canary.png)
 
 # DaemonSet
 
