@@ -30,42 +30,44 @@ This workshop is for anyone who wants to understand Kubernetes concepts and use 
 
 #### Workload
 
-[Pods and containers](./02-Workload/)
+[Pods and containers](./02-Workload/01-Pods.md)
 
-[Managing configurations and secrets](./02-Workload/)
+[Managing configurations and secrets](./02-Workload/02-ConfigMap.md)
 
-[ReplicaSets, DaemonSets and Deployments](./02-Workload/)
+[ReplicaSets, DaemonSets and Deployments](./02-Workload/03-Deployments.md)
 
-[Services and Ingress](./02-Workload/)
+[Services and Ingress](./02-Workload/04-Services.md)
+
+[Liveness and Readiness Probe](./02-Workload/05-Probes.md)
+
+[Basic Multi-Container patterns (Init, Adapter, Sidecar, Ambassador)](./02-Workload/06-Patterns.md)
 
 #### Stateless applications
 
-[Running stateless applications on Kubernetes](./03-Stateless/)
+[Running stateless applications on Kubernetes](./03-Stateless/01-App.md)
 
-[Scaling](./03-Stateless/)
+[Scaling](./03-Stateless/02-Scaling.md)
 
-[Jobs and CronJobs](./03-Stateless/)
-
-[Container patterns (Init, Adapter, Sidecar, Ambassador)](./03-Stateless/)
+[Jobs and CronJobs](./03-Stateless/03-Jobs.md)
 
 #### Storage
 
-[Container Storage Interface](./04-Storage/)
+[Container Storage Interface](./04-Storage/01-CSI.md)
 
-[Volumes](./04-Storage/)
+[Volumes](./04-Storage/02-Volumes.md)
 
-[PersistentVolume and PersistentVolumeClaim (PV and PVC)](./04-Storage/)
+[PersistentVolume and PersistentVolumeClaim (PV and PVC)](./04-Storage/03-PVC.md)
 
-[StorageClasses](./04-Storage/)
+[StorageClasses](./04-Storage/04-StorageClass.md)
 
 #### Stateful applications
 
-[StatefulSets](./05-Stateful/)
+[StatefulSets](./05-Stateful/05-StatefulSets.md)
 
-[Running stateful applications on Kubernetes](./05-Stateful/)
+[Running stateful applications on Kubernetes](./05-Stateful/02-App.md)
 
 #### Networking
 
-[Container Network Interface](./06-Networking/)
+[Container Network Interface](./06-Networking/01-CNI.md)
 
-[Network policies](./06-Networking/)
+[Network policies](./06-Networking/02-Policies.md)
