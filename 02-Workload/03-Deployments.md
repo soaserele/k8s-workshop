@@ -79,17 +79,96 @@ Using Deployments you can simply and reliably roll out new software versions wit
 
 ![Recreate strategy](../images/deploy-recreate.png)
 
-Rolling
+```bash
+$ kubectl create -f deployments/05-deploy-recreate.yaml
+deployment.apps/nginx created
+
+$ kubectl get pods
+NAME                     READY   STATUS    RESTARTS   AGE
+nginx-5694dbd64d-5p7jk   1/1     Running   0          28s
+nginx-5694dbd64d-dr87g   1/1     Running   0          28s
+nginx-5694dbd64d-dvqzf   1/1     Running   0          28s
+
+
+$ kubectl set image deploy nginx nginx=nginx:1.17
+deployment.apps/nginx image updated
+
+$ kubectl get pods
+NAME                     READY   STATUS        RESTARTS   AGE
+nginx-5694dbd64d-5p7jk   0/1     Terminating   0          76s
+nginx-5694dbd64d-dr87g   0/1     Terminating   0          76s
+nginx-5694dbd64d-dvqzf   0/1     Terminating   0          76s
+
+$ kubectl get pods 
+NAME                    READY   STATUS    RESTARTS   AGE
+nginx-6cc555f4c-79zzb   1/1     Running   0          18s
+nginx-6cc555f4c-8d2zm   1/1     Running   0          18s
+nginx-6cc555f4c-lsvgk   1/1     Running   0          18s
+```
+
+### Rolling
 
 ![Recreate strategy](../images/deploy-rolling.png)
 
-Blue/Green
+```bash
+$ kubectl create -f deployments/06-deploy-rolling.yaml
+deployment.apps/nginx created
+
+$ kubectl get pods
+NAME                     READY   STATUS    RESTARTS   AGE
+nginx-59958db4cb-7b8bl   1/1     Running   0          2m21s
+nginx-59958db4cb-7jdbd   1/1     Running   0          2m21s
+nginx-59958db4cb-fc75m   1/1     Running   0          2m21s
+nginx-59958db4cb-h96cq   1/1     Running   0          2m21s
+
+$ kubectl set image deploy nginx nginx=nginx:1.17
+deployment.apps/nginx image updated
+
+$ kubectl get pods
+nginx-59958db4cb-7b8bl   0/1     Terminating         0          2m45s
+nginx-59958db4cb-7jdbd   1/1     Running             0          2m45s
+nginx-59958db4cb-fc75m   1/1     Running             0          2m45s
+nginx-59958db4cb-h96cq   1/1     Running             0          2m45s
+nginx-5cb7585c59-kk8wf   0/1     ContainerCreating   0          2s
+nginx-5cb7585c59-q2glb   0/1     ContainerCreating   0          2s
+
+$ kubectl get pods
+NAME                     READY   STATUS        RESTARTS   AGE
+nginx-59958db4cb-7jdbd   0/1     Terminating   0          2m52s
+nginx-59958db4cb-fc75m   0/1     Terminating   0          2m52s
+nginx-59958db4cb-h96cq   0/1     Terminating   0          2m52s
+nginx-5cb7585c59-kk8wf   1/1     Running       0          9s
+nginx-5cb7585c59-ldjlk   1/1     Running       0          6s
+nginx-5cb7585c59-q2glb   1/1     Running       0          9s
+nginx-5cb7585c59-q4xrh   1/1     Running       0          6s
+
+$ kubectl get pods
+NAME                     READY   STATUS    RESTARTS   AGE
+nginx-5cb7585c59-kk8wf   1/1     Running   0          17s
+nginx-5cb7585c59-ldjlk   1/1     Running   0          14s
+nginx-5cb7585c59-q2glb   1/1     Running   0          17s
+nginx-5cb7585c59-q4xrh   1/1     Running   0          14s
+```
+
+### Blue/Green
 
 ![Recreate strategy](../images/deploy-bluegreen.png)
 
-Canary
+```bash
+$ kubectl create -f deployments/07-deploy-bluegreen-01.yaml
+deployment.apps/nginx created
+
+```
+
+### Canary
 
 ![Recreate strategy](../images/deploy-canary.png)
+
+```bash
+$ kubectl create -f deployments/08-deploy-canary-01.yaml
+deployment.apps/nginx created
+
+```
 
 # DaemonSet
 
