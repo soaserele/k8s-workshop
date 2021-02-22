@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx
+  name: nginx-green
   labels:
+    version: "1.16"
     app: nginx
     tier: frontend
 spec:
   replicas: 4                  # Number of replicas
   strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 25%            # Maximum pods that can be deployed during update = replicas + surge ( 4 + 1 = 5 )
-      maxUnavailable: 25%      # Maximum pods that should be alive during update = replicas - surge ( 4 - 1 = 3 )
+    type: Recreate
   selector:                    # Pod selector. Match all pods with specified labels
     matchLabels:
+      version: "1.16"
       app: nginx
       tier: frontend
   template:                    # Pod template used to create new pods
     metadata:
       labels:
+        version: "1.16"
         app: nginx
         tier: frontend
     spec:
