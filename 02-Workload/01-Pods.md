@@ -2,6 +2,10 @@
 
 The most important primitive is the Pod. It is the smallest unit that you can create and manage in Kubernetes, It lets you run a containerized application. In practice, you’ll often encounter a one to one mapping between a Pod and a container, however, there are use cases we’ll discuss in a later chapter that benefit from declaring more than one container in a single Pod. The shared context of a Pod is a set of Linux namespaces, cgroups, and potentially other facets of isolation.
 
+When created, each pod is assigned a unique IP address. Every container in a Pod shares the network namespace, including the IP address and network ports. Inside a Pod, the containers that belong to the Pod can communicate with one another using `localhost`. Containers that want to interact with a container running in a different Pod can use IP networking to communicate. In general a pod has the following DNS resolution:
+
+`pod-ip-address.namespace.pod.cluster.local`. 
+
 You'll rarely create individual Pods directly in Kubernetes — even singleton Pods. This is because Pods are designed as relatively ephemeral, disposable entities. When a Pod gets created (directly by you, or indirectly by a controller), the new Pod is scheduled to run on a Node in your cluster. The Pod remains on that node until the Pod finishes execution, the Pod object is deleted, the Pod is *evicted* for lack of resources, or the node fails. In the event of node failure pods that are not bound to a ReplicaSet or Deployment will not be rescheduled.
 
 ### Pod phase
