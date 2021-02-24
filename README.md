@@ -36,11 +36,13 @@ This workshop is for anyone who wants to understand Kubernetes concepts and use 
 
 [ReplicaSets, DaemonSets and Deployments](./02-Workload/03-Deployments.md)
 
-[Services and Ingress](./02-Workload/04-Services.md)
+[Liveness and Readiness Probe](./02-Workload/04-Probes.md)
 
-[Liveness and Readiness Probe](./02-Workload/05-Probes.md)
+[Services](./02-Workload/05-Services.md)
 
-[Basic Multi-Container patterns (Init, Adapter, Sidecar, Ambassador)](./02-Workload/06-Patterns.md)
+[Ingress](./02-Workload/06-Ingress.md)
+
+[Basic Multi-Container patterns (Init, Adapter, Sidecar, Ambassador)](./02-Workload/07-Patterns.md)
 
 #### Stateless applications
 
