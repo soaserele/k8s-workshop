@@ -36,7 +36,7 @@ This workshop is for anyone who wants to understand Kubernetes concepts and use 
 
 [ReplicaSets, DaemonSets and Deployments](./02-Workload/03-Deployments.md)
 
-[Liveness and Readiness Probe](./02-Workload/04-Probes.md)
+[Startup, Liveness and Readiness Probe](./02-Workload/04-Probes.md)
 
 [Services](./02-Workload/05-Services.md)
 
