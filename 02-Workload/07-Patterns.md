@@ -4,7 +4,14 @@ A pod that contains one container refers to a single container pod and it is the
 
 ## Init container 
 
+A Pod can have multiple containers running apps within it, but it can also have one or more init containers, which are run before the app containers are started. Init containers are exactly like regular containers, except that  kubelet runs each init container sequentially, Init containers always run to completion and each Init container must complete successfully before the next one starts. If a Pod's init container fails, the kubelet repeatedly restarts that init container until it succeeds. However, if the Pod has a `restartPolicy` of Never, and an init container fails during startup of that Pod, Kubernetes treats the overall Pod as failed.
 
+Because init containers have separate images from app containers, they have some advantages for start-up related code:
+
+- Init containers can contain utilities or custom code for setup that are not present in an app image. For example, there is no need to make an image `FROM` another image just to use a tool like `sed`, `awk`, `python`, or `dig` during setup. By keeping unnecessary tools separate you can limit the attack surface of your app container image.
+- Init containers offer a mechanism to block or delay app container startup until a set of preconditions are met. Once preconditions are met, all of the app containers in a Pod can start in parallel.
+
+Init containers support all the fields and features of app containers, including resource limits, volumes, and security settings. However, the resource requests and limits for an init container are handled differently.
 
 ## Sidecar container
 
