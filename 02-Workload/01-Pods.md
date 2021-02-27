@@ -85,3 +85,29 @@ $ kubectl explain pods
 $ kubectl explain pods.metadata
 ```
 
+## Requests and Limits
+
+When you specify a Pod, you can optionally specify how much of each resource a Container needs. The scheduler uses this information to decide on which node to place the Pod. The kubelet reserves at least the requested amount of resources for the containers, but this does not prevent the containers to consume more than requested. When you specify a resource limit for a Container, the kubelet enforces those limits so that the running container is not allowed to use more of that resource than the limit you set.
+
+The most common resources to specify are CPU and memory (RAM):
+
+```yaml
+resources:
+  requests:
+    memory: 50Mi
+    cpu: 50m
+  limits:
+    memory: 100Mi
+    cpu: 100m
+```
+
+Limits and requests for `memory` are measured in bytes. You can express memory as a plain integer or as a fixed-point number using one of these suffixes: E, P, T, G, M, K. You can also use the power-of-two equivalents: Ei, Pi, Ti, Gi, Mi, Ki. 
+
+Limits and requests for CPU resources are measured in CPU units. One CPU, in Kubernetes, is equivalent to 1 vCPU/Core for cloud providers and 1 hyperthread on bare-metal Intel processors. Kubernetes uses CFS quota mechanism (Completely Fair Scheduler) to implement the limit. This the quota is based on time period and not based on available CPU power. This time period is usually 1/10 of a second, or 100000 microseconds. When we specify CPU quota, we use the unit suffix *m* (thousandth of a core). 
+
+``` 
+  50m =    50 / 1000 =  0.05 =  5% of a core.
+2000m =  2000 / 1000 =  2.00 =  two full cores
+```
+
+Exceeding a memory limit makes your container process a candidate for OOM-killing, whereas your process basically can’t exceed the set CPU quota, and will never get evicted for trying to use more PU time than allocated. The system enforces the quota at the scheduler so the process just gets throttled at the limit.
