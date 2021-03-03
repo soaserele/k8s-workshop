@@ -45,4 +45,4 @@ const handler = (req, res) => {
 
 http
   .createServer(handler)
-  .listen(8080, () => console.log('Echo server started'));
+  .listen(8080, () => console.log('CCPrice server started'));
