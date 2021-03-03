@@ -32,25 +32,23 @@ This workshop is for anyone who wants to understand Kubernetes concepts and use 
 
 [Pods and containers](./02-Workload/01-Pods.md)
 
-[Managing configurations and secrets](./02-Workload/02-ConfigMap.md)
+[Startup, Liveness and Readiness Probe](./02-Workload/02-Probes.md)
 
-[ReplicaSets, DaemonSets and Deployments](./02-Workload/03-Deployments.md)
+[Managing configurations and secrets](./02-Workload/03-ConfigMap.md)
 
-[Startup, Liveness and Readiness Probe](./02-Workload/04-Probes.md)
+[ReplicaSets, DaemonSets and Deployments](./02-Workload/04-Deployments.md)
 
 [Services](./02-Workload/05-Services.md)
 
-[Ingress](./02-Workload/06-Ingress.md)
+[Autoscaling](./02-Workload/06-Scaling.md)
 
-[Basic Multi-Container patterns (Init, Adapter, Sidecar, Ambassador)](./02-Workload/07-Patterns.md)
+[Ingress](./02-Workload/07-Ingress.md)
 
-#### Stateless applications
+#### Running stateless applications in Kubernete
 
-[Running stateless applications on Kubernetes](./03-Stateless/01-App.md)
+[Stateless Application](./03-Deployment/01-Stateless.md)
 
-[Scaling](./03-Stateless/02-Scaling.md)
-
-[Jobs and CronJobs](./03-Stateless/03-Jobs.md)
+[Stateful Application with local volume](./03-Deployment/02-Local.md)
 
 #### Storage
 
@@ -62,11 +60,17 @@ This workshop is for anyone who wants to understand Kubernetes concepts and use 
 
 [StorageClasses](./04-Storage/04-StorageClass.md)
 
-#### Stateful applications
+#### Running applications in Kubernete 
 
-[StatefulSets](./05-Stateful/05-StatefulSets.md)
+[Running stateful applications on Kubernetes](./05-Apps/01-App.md)
 
-[Running stateful applications on Kubernetes](./05-Stateful/02-App.md)
+[StatefulSets](./05-Apps/02-StatefulSets.md)
+
+[Jobs and CronJobs](./05-Apps/03-Jobs.md)
+
+[Basic Multi-Container patterns (Init, Adapter, Sidecar, Ambassador)](./05-Apps/04-Patterns.md)
+
+[Running replilcated applications on Kubernetes](./05-Apps/05-Replicated.md)
 
 #### Networking
 

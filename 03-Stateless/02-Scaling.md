@@ -1,1 +1,0 @@
-WIP: HorizontalPodAutoscaling and VerticalPodAutoscaling

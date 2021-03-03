@@ -1,1 +1,0 @@
-WIP: Stateful Application (Wordpress/Drupal site?)
