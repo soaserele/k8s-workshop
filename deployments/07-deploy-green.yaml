@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
       - name: echo
-        image: echo:1
+        image: soaserele/echo:1
         readinessProbe:
           initialDelaySeconds: 30
           periodSeconds: 10

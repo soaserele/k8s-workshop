@@ -19,4 +19,4 @@ spec:
     spec:
       containers:
       - name: echo
-        image: echo:1
+        image: soaserele/echo:1
