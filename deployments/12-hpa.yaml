@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: echo
+  labels:
+    app: echo
+    tier: backend
+spec:
+  replicas: 3                  # Number of replicas
+  selector:                    # Pod selector. Match all pods with specified labels
+    matchLabels:
+      app: echo
+      tier: backend
+  template:                    # Pod template used to create new pods
+    metadata:
+      labels:
+        app: echo
+        tier: backend
+    spec:
+      containers:
+      - name: echo
+        image: soaserele/echo:1
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: echo
+spec:
+  minReplicas: 1
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 50
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: echo
