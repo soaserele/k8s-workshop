@@ -17,24 +17,29 @@ The basic idea behind the Ingress is to provide a way of describing higher level
 The Ingress spec contains all the information needed to configure a load balancer or a proxy server. Most importantly, it contains a list of rules matched against all incoming requests. Ingress resources only support rules for directing HTTP traffic.  Besides the base functionality the resource provides, the various ingress controller implementations usually provide several advanced features through custom resource annotations.
 
 ```yaml
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: ingress-service
-  namespace: default
 spec:
   rules:
   - host: example.com
     http:
       paths:
-      - backend:
-          serviceName: service1
-          servicePort: 80
-        path: /service1
-      - backend:
-          serviceName: service2
-          servicePort: 80
-        path: /service2
+      - path: /service1
+        pathType: Prefix
+        backend:
+          service: 
+            name: service1
+            port: 
+              number: 80
+      - path: /service2
+        pathType: Prefix
+        backend:
+          service: 
+            name: service2
+            port: 
+              number: 80
 
 ```
 

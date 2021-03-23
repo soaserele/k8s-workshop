@@ -1,0 +1,92 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+spec:
+  replicas: 1                  # Number of replicas
+  selector:                    # Pod selector. Match all pods with specified labels
+    matchLabels:
+      app: nginx
+  template:                    # Pod template used to create new pods
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.17
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+spec:
+  type: ClusterIP         # Default service type 
+  selector:
+    app: nginx
+  ports:
+    - name: http
+      protocol: TCP
+      port: 8080
+      targetPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: httpd
+  labels:
+    app: httpd
+spec:
+  replicas: 1                  # Number of replicas
+  selector:                    # Pod selector. Match all pods with specified labels
+    matchLabels:
+      app: httpd
+  template:                    # Pod template used to create new pods
+    metadata:
+      labels:
+        app: httpd
+    spec:
+      containers:
+      - name: httpd
+        image: httpd:2.4
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: httpd
+spec:
+  type: ClusterIP         # Default service type 
+  selector:
+    app: httpd
+  ports:
+    - name: http
+      protocol: TCP
+      port: 8080
+      targetPort: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /nginx
+        pathType: Prefix
+        backend:
+          service:
+            name: nginx
+            port: 
+              number: 80
+      - path: /httpd
+        pathType: Prefix
+        backend:
+          service:
+            name: httpd
+            port: 
+              number: 80

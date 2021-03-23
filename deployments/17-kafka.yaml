@@ -1,0 +1,186 @@
+#
+# Kafka needs Zookeeper. Let's start a small zookeeper cluster
+# 
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: zookeeper-pvc
+  labels:
+    app: kafka
+    tier: zookeeper
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: kafka-zookeeper
+  labels:
+    app: kafka
+    tier: zookeeper
+spec:
+  serviceName: kafka-zookeeper
+  replicas: 3
+  updateStrategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: kafka
+      tier: zookeeper
+  template:
+    metadata:
+      labels:
+        app: kafka
+        tier: zookeeper
+    spec:
+      containers:
+      - image: confluentinc/cp-zookeeper:6.1.1
+        name: zookeeper
+        env:
+        - name: ZOOKEEPER_CLIENT_PORT
+          value: "2181"
+        - name: ZOOKEEPER_TICK_TIME
+          value: "2000"
+        - name: ZOOKEEPER_SERVERS
+          value: "kafka-zookeeper-0.kafka-zookeeper.default.svc.cluster.local:2888:3888:participant;kafka-zookeeper-1.kafka-zookeeper.default.svc.cluster.local:2888:3888:participant;kafka-zookeeper-2.kafka-zookeeper.default.svc.cluster.local:2888:3888:participant"
+        command:
+        - "bash"
+        - "-c"
+        - |
+          export ZOOKEEPER_SERVER_ID=$((${HOSTNAME##*-}+1)) && \
+          /etc/confluent/docker/run
+        ports:
+        - name: client
+          containerPort: 2181
+        - name: peer
+          containerPort: 2888
+        - name: leader
+          containerPort: 3888
+        resources:
+          requests:
+            memory: "0.5Gi"
+            cpu: "200m"
+        volumeMounts:
+        - name: zookeeper-volume
+          mountPath: /var/lib/zookeeper
+      volumes:
+      - name: zookeeper-volume
+        persistentVolumeClaim:
+          claimName: zookeeper-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-zookeeper
+  labels:
+    app: kafka
+    tier: zookeeper
+spec:
+  type: ClusterIP
+  selector:
+    app: kafka
+    tier: zookeeper
+  ports:
+  - name: client
+    port: 2181
+  - name: peer
+    port: 2888
+  - name: leader
+    port: 3888
+---
+#
+# Let's start a cluster of Kafka brokers
+# 
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: kafka-pvc
+  labels:
+    app: kafka
+    tier: broker
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: kafka-broker
+  labels:
+    app: kafka
+    tier: broker
+spec:
+  serviceName: kafka-broker
+  replicas: 3
+  updateStrategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: kafka
+      tier: broker
+  template:
+    metadata:
+      labels:
+        app: kafka
+        tier: broker
+    spec:
+      containers:
+      - image: confluentinc/cp-kafka:6.1.1
+        name: broker
+        env:
+        - name: KAFKA_ZOOKEEPER_CONNECT
+          value: "kafka-zookeeper:2181"
+        - name: KAFKA_LISTENER_SECURITY_PROTOCOL_MAP
+          value: "PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT"
+        - name: "KAFKA_INTER_BROKER_LISTENER_NAME"
+          value: "PLAINTEXT"
+        - name: "KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR"
+          value: "3"
+        command:
+        - sh
+        - -c
+        - |
+          export KAFKA_BROKER_ID=${HOSTNAME##*-} && \
+          export KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://${HOSTNAME}.kafka-broker.default.svc.cluster.local:29092,PLAINTEXT_HOST://${HOSTNAME}.kafka-broker.default.svc.cluster.local:9092 && \
+          exec /etc/confluent/docker/run
+        ports:
+        - name: local
+          containerPort: 9092
+        - name: remote
+          containerPort: 29092
+        resources:
+          requests:
+            memory: "0.5Gi"
+            cpu: "200m"
+        volumeMounts:
+        - name: kafka-volume
+          mountPath: /var/lib/kafka
+      volumes:
+      - name: kafka-volume
+        persistentVolumeClaim:
+          claimName: kafka-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-broker
+  labels:
+    app: kafka
+    tier: broker
+spec:
+  type: ClusterIP
+  selector:
+    app: kafka
+    tier: broker
+  ports:
+  - name: local
+    port: 9092
+  - name: remote
+    port: 29092

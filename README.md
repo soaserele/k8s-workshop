@@ -30,19 +30,23 @@ This workshop is for anyone who wants to understand Kubernetes concepts and use 
 
 #### Workload
 
-[Pods and containers](./02-Workload/01-Pods.md)
+[Namespaces](./02-Workload/01-Namespaces.md)
 
-[Startup, Liveness and Readiness Probe](./02-Workload/02-Probes.md)
+[Pods and containers](./02-Workload/02-Pods.md)
 
-[Managing configurations and secrets](./02-Workload/03-ConfigMap.md)
+[Startup, Liveness and Readiness Probe](./02-Workload/03-Probes.md)
 
-[ReplicaSets, DaemonSets and Deployments](./02-Workload/04-Deployments.md)
+[Managing configurations and secrets](./02-Workload/04-ConfigMap.md)
 
-[Services](./02-Workload/05-Services.md)
+[ReplicaSets, DaemonSets and Deployments](./02-Workload/05-Deployments.md)
 
-[Autoscaling](./02-Workload/06-Scaling.md)
+[Services](./02-Workload/06-Services.md)
 
-[Ingress](./02-Workload/07-Ingress.md)
+[Autoscaling](./02-Workload/07-Scaling.md)
+
+[Ingress](./02-Workload/08-Ingress.md)
+
+[Jobs and CronJobs](./02-Workload/09-Jobs.md)
 
 #### Running stateless applications in Kubernete
 
@@ -52,25 +56,19 @@ This workshop is for anyone who wants to understand Kubernetes concepts and use 
 
 #### Storage
 
-[Container Storage Interface](./04-Storage/01-CSI.md)
+[Volumes](./04-Storage/01-Volumes.md)
 
-[Volumes](./04-Storage/02-Volumes.md)
+[PersistentVolume (PV), PersistentVolumeClaim (PVC) and StorageClasses](./04-Storage/02-PV.md)
 
-[PersistentVolume and PersistentVolumeClaim (PV and PVC)](./04-Storage/03-PVC.md)
+[Container Storage Interface](./04-Storage/03-CSI.md)
 
-[StorageClasses](./04-Storage/04-StorageClass.md)
-
-#### Running applications in Kubernete 
+Running applications in Kubernete 
 
 [Running stateful applications on Kubernetes](./05-Apps/01-App.md)
 
 [StatefulSets](./05-Apps/02-StatefulSets.md)
 
-[Jobs and CronJobs](./05-Apps/03-Jobs.md)
-
-[Basic Multi-Container patterns (Init, Adapter, Sidecar, Ambassador)](./05-Apps/04-Patterns.md)
-
-[Running replilcated applications on Kubernetes](./05-Apps/05-Replicated.md)
+[Basic Multi-Container patterns (Init, Adapter, Sidecar, Ambassador)](./05-Apps/03-Patterns.md)
 
 #### Networking
 

@@ -1,1 +1,0 @@
-WIP: PersistentVolumeClaim and PersistentVolumes

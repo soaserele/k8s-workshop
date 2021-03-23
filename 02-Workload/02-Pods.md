@@ -28,7 +28,7 @@ You'll rarely create individual Pods directly in Kubernetes — even singleton P
 | `Running`    | Container is executing without issues                        |
 | `Terminated` | A container in this state began execution and then either ran to completion or failed for some reason. |
 
-## Deployment definition
+## Pod definition in yaml format
 
 ```yaml
 apiVersion: v1

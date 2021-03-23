@@ -1,1 +1,0 @@
-# Replicated Stateful Application
