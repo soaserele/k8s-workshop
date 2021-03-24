@@ -1,20 +1,6 @@
 #
 # Kafka needs Zookeeper. Let's start a small zookeeper cluster
 # 
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: zookeeper-pvc
-  labels:
-    app: kafka
-    tier: zookeeper
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi
----
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -67,10 +53,14 @@ spec:
         volumeMounts:
         - name: zookeeper-volume
           mountPath: /var/lib/zookeeper
-      volumes:
-      - name: zookeeper-volume
-        persistentVolumeClaim:
-          claimName: zookeeper-pvc
+  volumeClaimTemplates:
+  - metadata:
+      name: zookeeper-volume
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi
 ---
 apiVersion: v1
 kind: Service
@@ -80,7 +70,7 @@ metadata:
     app: kafka
     tier: zookeeper
 spec:
-  type: ClusterIP
+  clusterIP: None
   selector:
     app: kafka
     tier: zookeeper
@@ -95,20 +85,6 @@ spec:
 #
 # Let's start a cluster of Kafka brokers
 # 
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: kafka-pvc
-  labels:
-    app: kafka
-    tier: broker
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi
----
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -162,10 +138,14 @@ spec:
         volumeMounts:
         - name: kafka-volume
           mountPath: /var/lib/kafka
-      volumes:
-      - name: kafka-volume
-        persistentVolumeClaim:
-          claimName: kafka-pvc
+  volumeClaimTemplates:
+  - metadata:
+      name: kafka-volume
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi
 ---
 apiVersion: v1
 kind: Service
@@ -175,7 +155,7 @@ metadata:
     app: kafka
     tier: broker
 spec:
-  type: ClusterIP
+  clusterIP: None
   selector:
     app: kafka
     tier: broker
