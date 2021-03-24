@@ -160,7 +160,7 @@ metadata:
     app: wordpress
     tier: frontend
 spec:
-  type: NodePort
+  type: LoadBalancer
   ports:
     - port: 80
   selector:

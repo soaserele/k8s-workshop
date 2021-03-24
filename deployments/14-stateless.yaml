@@ -40,10 +40,11 @@ kind: Service
 metadata:
   name: ccprice
 spec:
-  type: NodePort
+  type: LoadBalancer
   selector:
     app: ccprice
   ports:
     - name: http
       protocol: TCP
-      port: 8080
+      port: 80
+      targetPort: 8080
