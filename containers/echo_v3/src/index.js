@@ -4,7 +4,7 @@ const crypto = require('crypto');
 const { performance } = require('perf_hooks');
 
 const algorithm = 'sha512';
-const rounds = 64 * 1024;
+const rounds = 32 * 1024;
 
 const params = ['hostname', 'port', 'pathname', 'search'];
 
