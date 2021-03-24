@@ -65,7 +65,7 @@ $ kubectl get pods
 NAME    READY   STATUS    RESTARTS   AGE
 nginx   1/1     Running   0          24s
 
-$ kubectl run --image=raarts/netutils netutils --restart=never -- sleep 600
+$ kubectl run --image=raarts/netutils netutils --restart=Never -- sleep 600
 
 $ kubectl exec -it netutils -- curl $(kubectl get pod nginx -o jsonpath='{.status.podIP}')
 
