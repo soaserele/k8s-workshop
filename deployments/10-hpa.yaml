@@ -6,12 +6,12 @@ metadata:
     app: echo
     tier: backend
 spec:
-  replicas: 3                  # Number of replicas
-  selector:                    # Pod selector. Match all pods with specified labels
+  replicas: 1                  
+  selector:                   
     matchLabels:
       app: echo
       tier: backend
-  template:                    # Pod template used to create new pods
+  template:
     metadata:
       labels:
         app: echo
@@ -19,7 +19,20 @@ spec:
     spec:
       containers:
       - name: echo
-        image: soaserele/echo:1
+        image: soaserele/echo:3
+        ports:
+        - name: http
+          protocol: TCP
+          containerPort: 8080
+        readinessProbe:
+          timeoutSeconds: 10
+          httpGet:
+            path: /
+            port: 8080
+        resources:
+          limits:
+            cpu: 100m
+            memory: 128Mi
 ---
 apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
@@ -27,9 +40,24 @@ metadata:
   name: echo
 spec:
   minReplicas: 1
-  maxReplicas: 5
+  maxReplicas: 3
   targetCPUUtilizationPercentage: 50
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
     name: echo
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: echo
+spec:
+  type: LoadBalancer
+  selector:
+    app: echo
+    tier: backend
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: 8080

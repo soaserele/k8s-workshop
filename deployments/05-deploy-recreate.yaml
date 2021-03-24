@@ -22,3 +22,32 @@ spec:
       containers:
       - name: echo
         image: soaserele/echo:1
+        ports:
+        - name: http
+          protocol: TCP
+          containerPort: 8080
+        readinessProbe:
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          httpGet:
+            path: /
+            port: 8080
+        resources:
+          limits:
+            cpu: 100m
+            memory: 128Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: echo
+spec:
+  type: LoadBalancer         
+  selector:
+    app: echo
+    tier: backend
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 8080
