@@ -53,6 +53,7 @@ spec:
   selector:
     app: echo
     tier: backend
+    version: "1"
   ports:
   - name: http
     protocol: TCP
